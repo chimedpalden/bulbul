@@ -20,6 +20,7 @@ class AsksController < ApplicationController
     ask = Ask.new(ask_params)
 
     if ask.save
+      ask.get_answer
       render json: ask, status: :created
     else
       render json: ask.errors, status: :unprocessable_entity

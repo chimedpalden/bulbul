@@ -1,6 +1,7 @@
 module Embedding
   class PdfFormatter
-    DOC_EMBEDDINGS_MODEL = "text-embedding-ada-002".freeze
+    MODEL_NAME = "curie".freeze
+    DOC_EMBEDDINGS_MODEL = "text-search-#{MODEL_NAME}-doc-001".freeze
     TOKENIZER_CODE = "gpt2".freeze
 
     def initialize(path)
@@ -20,8 +21,8 @@ module Embedding
       parse_file
       df = Rover::DataFrame.new(@result)
       @df = df[df[:tokens] < 2046]
-      File.write("#{@filename}.pages.csv", @df.to_csv)
-      puts "#{@filename}.pages.csv is generated"
+      File.write(ENV['PAGES_CSV_FILE'], @df.to_csv)
+      puts "#{ENV['PAGES_CSV_FILE']} is generated"
     end
 
     def pdf_embedding_csv
@@ -38,13 +39,13 @@ module Embedding
     end
 
     def create_embedding_csv
-      CSV.open("#{@filename}.embeddings.csv", "w") do |csv|
+      CSV.open("#{ENV['EMBEDDED_CSV_FILE']}", "w") do |csv|
         csv << [:title, :embedding]
         @embedding_array.each do |obj|
           csv << [obj[:title], obj[:embedding]]
         end
       end
-      puts "#{@filename}.embeddings.csv is generated"
+      puts "#{ENV['EMBEDDED_CSV_FILE']} is generated"
     end
 
     def get_embedding(row)

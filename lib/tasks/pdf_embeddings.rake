@@ -1,4 +1,5 @@
 # ./lib/tasks/pdf_to_page_embeddings.rake
+# rake 'embedding:pdf[/Users/chimed/Downloads/Test_File.pdf]'
 
 require 'embedding/pdf_formatter'
 

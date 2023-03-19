@@ -28,6 +28,7 @@ gem 'tokenizers'
 gem 'rover-df'
 gem 'ruby-openai'
 gem 'csv'
+gem 'smarter_csv'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

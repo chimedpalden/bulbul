@@ -201,6 +201,7 @@ GEM
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
     semantic_range (3.0.0)
+    smarter_csv (1.7.4)
     spring (4.1.1)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
@@ -261,6 +262,7 @@ DEPENDENCIES
   ruby-openai
   sass-rails (>= 6)
   selenium-webdriver (>= 4.0.0.rc1)
+  smarter_csv
   spring
   tokenizers
   turbolinks (~> 5)
