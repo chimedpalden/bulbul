@@ -3,8 +3,8 @@ class AsksController < ApplicationController
 
   # GET /asks or /asks.json
   def index
-    asks = Ask.all
-    render status: :ok, json: { asks: asks }
+    @asks = Ask.all
+    render
   end
 
   # GET /asks/1 or /asks/1.json
