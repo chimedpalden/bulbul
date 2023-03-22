@@ -15,8 +15,13 @@ class Ask < ApplicationRecord
     @document_embeddings = load_doc_embeddings
     @query_embedding = get_query_embedding
     @document_content = SmarterCSV.process(ENV['PAGES_CSV_FILE'])
-    answer = answer_query_with_context
-    self.update(answer: answer, context: @context)
+    @q_answer = answer_query_with_context
+    self.update(answer: @q_answer, context: @context)
+    cache_answer
+  end
+
+  def cache_answer
+    RedisService.instance.set(question, @q_answer, ex: 60*60*24*7)
   end
 
   def answer_query_with_context

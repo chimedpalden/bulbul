@@ -1,5 +1,6 @@
 class AsksController < ApplicationController
   before_action :set_ask, only: %i[ show ]
+  before_action :check_cache, only: [:create]
 
   # GET /asks or /asks.json
   def index
@@ -17,13 +18,18 @@ class AsksController < ApplicationController
 
   # POST /asks or /asks.json
   def create
-    ask = Ask.new(ask_params)
-
-    if ask.save
-      ask.get_answer
-      render json: ask, status: :created
+    if check_cache
+      render json: { answer: @answer, question: params[:ask][:question] }
+    elsif fetch_question
+      render json: @ask
     else
-      render json: ask.errors, status: :unprocessable_entity
+      ask = Ask.new(ask_params)
+      if ask.save
+        ask.get_answer
+        render json: ask, status: :created
+      else
+        render json: ask.errors, status: :unprocessable_entity
+      end
     end
   end
 
@@ -36,5 +42,14 @@ class AsksController < ApplicationController
     # Only allow a list of trusted parameters through.
     def ask_params
       params.require(:ask).permit(:question, :answer)
+    end
+
+    def fetch_question
+      @ask = Ask.find_by(question: params[:ask][:question])
+      @ask&.answer
+    end
+
+    def check_cache
+      @answer = RedisService.instance.get(params[:ask][:question])
     end
 end
