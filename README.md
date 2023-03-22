@@ -1,24 +1,20 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Setup
+`bundle install`
+`rails db:create`
 
-Things you may want to cover:
+Run server
+`rails s` 
+`./bin/webpack-dev-server`
 
-* Ruby version
+Turn your PDF into embeddings
+`rake 'embedding:pdf[/path/to/pdf/file]'`
 
-* System dependencies
 
-* Configuration
+Create and fill in .env using .env.example as an example.
+replace `OPENAI_TOKEN` with openai token
 
-* Database creation
+`brew install postgresql`
+`brew install redis`
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
